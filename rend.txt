@@ -1,0 +1,3 @@
+no main 
+no master
+no origin
