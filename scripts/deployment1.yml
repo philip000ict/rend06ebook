@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: book-catalog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: book-catalog
+  template:
+    metadata:
+      labels:
+        app: book-catalog
+    spec:
+      containers: 
+      - name: book-catalog
+        image: book_catalog:1
+        ports:
+        - containerPort: 8000
+        imagePullPolicy: Never
+        environment:
+          POSTGRES_USER: psql06ebook
+          POSTGRES_PASSWORD: pwd
+          PGDATA: /data/postgres
+          POSTGRES_DB: postgres
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: book-catalog
+spec:
+ selector:
+   app: book-catalog
+ type: LoadBalancer
+ ports:
+   - protocol: TCP
+     port: 80
+     targetPort: 8000
+
+     
